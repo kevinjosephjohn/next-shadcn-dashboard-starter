@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { account } from '@/lib/appwrite';
@@ -42,6 +42,22 @@ export default function UserAuthForm() {
     resolver: zodResolver(formSchema),
     defaultValues
   });
+
+  const isLoggedIn = async () => {
+    try {
+      const user = await account.get();
+      if (user) {
+        console.log('User is logged in', user);
+        setLoggedInUser(user);
+      }
+    } catch (error) {
+      console.log('No user is logged in');
+    }
+  };
+
+  useEffect(() => {
+    isLoggedIn();
+  }, []);
 
   const onSubmit = async (data: UserFormValue) => {
     setLoading(true);

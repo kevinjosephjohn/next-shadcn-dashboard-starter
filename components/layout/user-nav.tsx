@@ -11,9 +11,28 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { signOut, useSession } from 'next-auth/react';
+
+// import { signOut, useSession } from 'next-auth/react';
+import { account } from '@/lib/appwrite';
 export function UserNav() {
-  const { data: session } = useSession();
+  const currentSession = async () => {
+    try {
+      const session = await account.get();
+      console.log('session', session);
+      return session;
+    } catch (error) {}
+  };
+
+  const signOut = async () => {
+    try {
+      await account.deleteSession('current');
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const { data: session } = currentSession();
+  console.log('session1', session);
+
   if (session) {
     return (
       <DropdownMenu>
@@ -26,6 +45,7 @@ export function UserNav() {
               />
               <AvatarFallback>{session.user?.name?.[0]}</AvatarFallback>
             </Avatar>
+            test
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" align="end" forceMount>
