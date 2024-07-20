@@ -112,7 +112,7 @@ export type Employee = {
 
 export type Scans = {
   unit: string;
-  qr_code: string;
+  qrCode: string;
   status: boolean;
 };
 

@@ -4,7 +4,7 @@ import { RecentScans } from '@/components/recent-scans';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { columns } from '@/components/tables/employee-tables/columns';
-
+import { databases } from '@/lib/appwrite';
 import {
   Card,
   CardContent,
@@ -14,7 +14,8 @@ import {
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useEffect } from 'next/navigation';
+import { gettId1Collection } from '@/lib/api';
 
 export default async function page() {
   const router = useRouter();
@@ -28,9 +29,14 @@ export default async function page() {
       (country ? `&search=${country}` : '')
   );
   const employeeRes = await res.json();
+
+  // const qrData = await gettId1Collection();
+  const qrData = await databases.listDocuments('carouselDb1', 'id1collection');
+  console.log(qrData);
+
   const totalUsers = employeeRes.total_users; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = employeeRes.users;
+  const employee = qrData.documents;
 
   return (
     <ScrollArea className="h-full">

@@ -44,6 +44,7 @@ export function RecentScans<TData, TValue>({
   pageCount,
   pageSizeOptions = [10, 20]
 }: DataTableProps<TData, TValue>) {
+  console.log('ddd', data);
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

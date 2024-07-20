@@ -4,15 +4,15 @@ import { ColumnDef } from '@tanstack/react-table';
 
 export const columns: ColumnDef<Scans>[] = [
   {
-    accessorKey: 'first_name',
+    accessorKey: 'unit',
     header: 'UNIT'
   },
   {
-    accessorKey: 'country',
+    accessorKey: 'qrCode',
     header: 'QR CODE'
   },
   {
-    accessorKey: 'email',
+    accessorKey: 'status',
     header: 'STATUS'
   }
 ];
