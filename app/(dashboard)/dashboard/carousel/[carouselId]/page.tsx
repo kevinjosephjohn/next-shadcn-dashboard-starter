@@ -41,82 +41,65 @@ export default function page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <Card onClick={() => router.push(`/carousel1`)}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Carousel 1
+                    ID 1 PASS
                   </CardTitle>
-                  <Button
-                    size="sm"
-                    onClick={() => router.push(`/dashboard/carousel/1`)}
-                  >
-                    Info
-                  </Button>
+                  <CardTitle className="text-sm font-medium">
+                    ID 1 FAIL
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-success">99.9%</div>
+                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <div className="text-2xl font-bold text-success">325</div>
+                    <div className="text-2xl font-bold text-success">325</div>
+                  </div>
                   <p className="text-xs text-muted-foreground text-warning">
-                    325 fail
+                    Accuracy: 95%
                   </p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card onClick={() => router.push(`/carousel1`)}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    Carousel 2
-                  </CardTitle>
-                  <Button size="sm" onClick={() => router.push(`/carousel2`)}>
-                    Info
-                  </Button>
+                  <CardTitle className="text-sm font-medium">VU PASS</CardTitle>
+                  <CardTitle className="text-sm font-medium">VU FAIL</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-success">99.9%</div>
+                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <div className="text-2xl font-bold text-success">325</div>
+                    <div className="text-2xl font-bold text-success">325</div>
+                  </div>
                   <p className="text-xs text-muted-foreground text-warning">
-                    325 fail
+                    Accuracy: 95%
                   </p>
                 </CardContent>
               </Card>
-              <Card>
+              <Card onClick={() => router.push(`/carousel1`)}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Carousel 3
+                    ID 4 PASS
                   </CardTitle>
-                  <Button size="sm" onClick={() => router.push(`/carousel3`)}>
-                    Info
-                  </Button>
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold text-success">99.9%</div>
-                  <p className="text-xs text-muted-foreground text-warning">
-                    325 fail
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Carousel 4
+                    ID 4 FAIL
                   </CardTitle>
-                  <Button size="sm" onClick={() => router.push(`/carousel4`)}>
-                    Info
-                  </Button>
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-success">99.9%</div>
+                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <div className="text-2xl font-bold text-success">325</div>
+                    <div className="text-2xl font-bold text-success">325</div>
+                  </div>
                   <p className="text-xs text-muted-foreground text-warning">
-                    325 fail
+                    Accuracy: 95%
                   </p>
                 </CardContent>
               </Card>
             </div>
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1">
-              <div className="col-span-4">
-                <BarGraph />
-              </div>
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Recent Scans</CardTitle>
                   <CardDescription>
                     You made 265 sales this month.
                   </CardDescription>
@@ -125,12 +108,6 @@ export default function page() {
                   <RecentSales />
                 </CardContent>
               </Card>
-              <div className="col-span-4">
-                <AreaGraph />
-              </div>
-              <div className="col-span-4 md:col-span-3">
-                <PieGraph />
-              </div>
             </div>
           </TabsContent>
         </Tabs>
