@@ -37,7 +37,7 @@ export default async function page() {
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            RAPL - IOCL Dashboard
+            RAPL - CAROUSEL 1
           </h2>
           <div className="hidden items-center space-x-2 md:flex">
             <CalendarDateRangePicker />
