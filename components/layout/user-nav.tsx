@@ -12,10 +12,11 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { account } from '@/lib/appwrite';
+import { account, Models } from '@/lib/appwrite';
 
 export function UserNav() {
-  const [session, setSession] = useState(null);
+  const [session, setSession] =
+    useState<Models.User<Models.Preferences> | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,10 +57,6 @@ export function UserNav() {
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                src={session?.image ?? ''}
-                alt={session?.name ?? ''}
-              />
               <AvatarFallback>{session?.name?.[0]}</AvatarFallback>
             </Avatar>
           </Button>

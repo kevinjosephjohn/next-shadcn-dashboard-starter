@@ -1,4 +1,4 @@
-import { Client, Account } from 'appwrite';
+import { Client, Account, Models } from 'appwrite';
 
 export const client = new Client();
 
@@ -6,3 +6,4 @@ client.setEndpoint('https://appwrite.xeve.dev/v1').setProject('rapl'); // Replac
 
 export const account = new Account(client);
 export { ID } from 'appwrite';
+export type { Models };

@@ -13,7 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { account } from '@/lib/appwrite';
+import { account, Models } from '@/lib/appwrite';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
@@ -27,11 +27,10 @@ type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
   const [loading, setLoading] = useState(false);
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loggedInUser, setLoggedInUser] =
+    useState<Models.User<Models.Preferences> | null>(null);
   const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const defaultValues = {
     email: 'demo@gmail.com',
@@ -73,7 +72,11 @@ export default function UserAuthForm() {
       setLoggedInUser(await account.get());
       window.location.href = '/dashboard';
     } catch (error) {
-      setErrorMessage(error.message);
+      if (error instanceof Error) {
+        setErrorMessage(error.message);
+      } else {
+        setErrorMessage('An unexpected error occurred');
+      }
       setTimeout(() => {
         setErrorMessage(null);
         setError(false);
