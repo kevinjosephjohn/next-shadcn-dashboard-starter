@@ -1,3 +1,4 @@
+'use client';
 import { AreaGraph } from '@/components/charts/area-graph';
 import { BarGraph } from '@/components/charts/bar-graph';
 import { PieGraph } from '@/components/charts/pie-graph';
@@ -5,6 +6,7 @@ import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { Overview } from '@/components/overview';
 import { RecentSales } from '@/components/recent-sales';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Card,
   CardContent,
@@ -14,8 +16,11 @@ import {
 } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useParams, useRouter } from 'next/navigation';
 
 export default function page() {
+  const router = useRouter();
+
   return (
     <ScrollArea className="h-full">
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
@@ -37,11 +42,14 @@ export default function page() {
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <Card>
+              <Card onClick={() => router.push(`/carousel1`)}>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
                     Carousel 1
                   </CardTitle>
+                  <Button size="sm" onClick={() => router.push(`/carousel1`)}>
+                    Info
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-success">99.9%</div>
@@ -55,6 +63,9 @@ export default function page() {
                   <CardTitle className="text-sm font-medium">
                     Carousel 2
                   </CardTitle>
+                  <Button size="sm" onClick={() => router.push(`/carousel2`)}>
+                    Info
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-success">99.9%</div>
@@ -68,6 +79,9 @@ export default function page() {
                   <CardTitle className="text-sm font-medium">
                     Carousel 3
                   </CardTitle>
+                  <Button size="sm" onClick={() => router.push(`/carousel3`)}>
+                    Info
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-success">99.9%</div>
@@ -81,6 +95,9 @@ export default function page() {
                   <CardTitle className="text-sm font-medium">
                     Carousel 4
                   </CardTitle>
+                  <Button size="sm" onClick={() => router.push(`/carousel4`)}>
+                    Info
+                  </Button>
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold text-success">99.9%</div>
