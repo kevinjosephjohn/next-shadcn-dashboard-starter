@@ -10,11 +10,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
-import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { account } from '@/lib/appwrite';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
@@ -26,24 +26,44 @@ const formSchema = z.object({
 type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
-  // const searchParams = useSearchParams();
-  // const callbackUrl = searchParams.get('callbackUrl');
   const [loading, setLoading] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+
   const defaultValues = {
     email: 'demo@gmail.com',
     password: 'password'
   };
+
   const form = useForm<UserFormValue>({
     resolver: zodResolver(formSchema),
     defaultValues
   });
 
   const onSubmit = async (data: UserFormValue) => {
-    console.log(data);
-    // signIn('credentials', {
-    //   email: data.email,
-    //   password: data.password,
-    // });
+    setLoading(true);
+    setError(false); // Reset error state before trying to log in
+    setErrorMessage(null); // Reset error message before trying to log in
+
+    try {
+      const session = await account.createEmailPasswordSession(
+        data.email,
+        data.password
+      );
+      setLoggedInUser(await account.get());
+    } catch (error) {
+      setErrorMessage(error.message);
+      setTimeout(() => {
+        setErrorMessage(null);
+        setError(false);
+      }, 2000);
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -89,6 +109,15 @@ export default function UserAuthForm() {
               </FormItem>
             )}
           />
+
+          <div className="flex flex-col space-y-2 text-center">
+            {error && (
+              <Alert variant="destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
+          </div>
 
           <Button disabled={loading} className="ml-auto w-full" type="submit">
             Login
