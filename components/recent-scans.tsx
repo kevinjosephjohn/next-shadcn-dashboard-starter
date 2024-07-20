@@ -23,12 +23,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { client, databases, Models } from '@/lib/appwrite';
 
-// Define a type that extends Document
-interface MyData extends Models.Document {
-  // Add any additional properties specific to your data
-  [key: string]: any;
-}
-
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
@@ -42,7 +36,7 @@ interface DataTableProps<TData, TValue> {
   };
 }
 
-export function RecentScans<TData extends MyData, TValue>({
+export function RecentScans<TData, TValue>({
   columns,
   data,
   pageNo,
@@ -72,20 +66,7 @@ export function RecentScans<TData extends MyData, TValue>({
 
   const [tableData, setTableData] = React.useState<TData[]>(data);
 
-  // Data fetching
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // const fetchedData = (await databases.listDocuments<MyData>('carouselDb1', 'id1collection')).documents;
-        const fetchedData = [];
-        setTableData(fetchedData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-
     client.subscribe('documents', (response) => {
       tableData.push(response.payload as TData);
       setTableData((prevData) => [response.payload as TData, ...prevData]);

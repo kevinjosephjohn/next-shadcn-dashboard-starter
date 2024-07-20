@@ -9,8 +9,8 @@ import { account } from '@/lib/appwrite';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'RAPL DASHBOARD',
+  description: 'RAPL DASH'
 };
 
 export default async function RootLayout({

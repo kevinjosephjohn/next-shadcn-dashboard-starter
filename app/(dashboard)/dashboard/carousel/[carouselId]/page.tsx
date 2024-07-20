@@ -1,4 +1,3 @@
-'use client';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
 import { RecentScans } from '@/components/recent-scans';
 import { Button } from '@/components/ui/button';
@@ -15,24 +14,19 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams, useRouter } from 'next/navigation';
-import { gettId1Collection } from '@/lib/api';
-
+import { Employee } from '@/constants/data';
+import { Models, Query } from '@/lib/appwrite';
+import { CarouselCards } from '@/components/carousel-cards';
 export default async function page() {
-  const router = useRouter();
   const page = 1;
   const pageLimit = 25;
-  const country = null;
-  const offset = (page - 1) * pageLimit;
 
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : '')
-  );
-  const employeeRes = await res.json();
-
-  const totalUsers = employeeRes.total_users; //1000
+  const res = await databases.listDocuments('carouselDb1', 'id1collection', [
+    Query.orderDesc('$createdAt')
+  ]);
+  const totalUsers = res.total;
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee = [];
+  const employee: Models.Document[] = res.documents;
 
   return (
     <ScrollArea className="h-full">
@@ -54,61 +48,8 @@ export default async function page() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="overview" className="space-y-4">
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <Card onClick={() => router.push(`/carousel1`)}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    ID 1 PASS
-                  </CardTitle>
-                  <CardTitle className="text-sm font-medium">
-                    ID 1 FAIL
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <div className="text-2xl font-bold text-success">325</div>
-                    <div className="text-2xl font-bold text-success">325</div>
-                  </div>
-                  <p className="text-xs text-muted-foreground text-warning">
-                    Accuracy: 95%
-                  </p>
-                </CardContent>
-              </Card>
-              <Card onClick={() => router.push(`/carousel1`)}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">VU PASS</CardTitle>
-                  <CardTitle className="text-sm font-medium">VU FAIL</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <div className="text-2xl font-bold text-success">325</div>
-                    <div className="text-2xl font-bold text-success">325</div>
-                  </div>
-                  <p className="text-xs text-muted-foreground text-warning">
-                    Accuracy: 95%
-                  </p>
-                </CardContent>
-              </Card>
-              <Card onClick={() => router.push(`/carousel1`)}>
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">
-                    ID 4 PASS
-                  </CardTitle>
-                  <CardTitle className="text-sm font-medium">
-                    ID 4 FAIL
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <div className="text-2xl font-bold text-success">325</div>
-                    <div className="text-2xl font-bold text-success">325</div>
-                  </div>
-                  <p className="text-xs text-muted-foreground text-warning">
-                    Accuracy: 95%
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
+            {/* <></> */}
+            <CarouselCards />
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-1">
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
