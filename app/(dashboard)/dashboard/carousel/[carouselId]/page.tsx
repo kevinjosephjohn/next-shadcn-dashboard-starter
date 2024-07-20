@@ -1,12 +1,10 @@
 'use client';
-import { AreaGraph } from '@/components/charts/area-graph';
-import { BarGraph } from '@/components/charts/bar-graph';
-import { PieGraph } from '@/components/charts/pie-graph';
 import { CalendarDateRangePicker } from '@/components/date-range-picker';
-import { Overview } from '@/components/overview';
-import { RecentSales } from '@/components/recent-sales';
+import { RecentScans } from '@/components/recent-scans';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { columns } from '@/components/tables/employee-tables/columns';
+
 import {
   Card,
   CardContent,
@@ -18,8 +16,21 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useParams, useRouter } from 'next/navigation';
 
-export default function page() {
+export default async function page() {
   const router = useRouter();
+  const page = 1;
+  const pageLimit = 25;
+  const country = null;
+  const offset = (page - 1) * pageLimit;
+
+  const res = await fetch(
+    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
+      (country ? `&search=${country}` : '')
+  );
+  const employeeRes = await res.json();
+  const totalUsers = employeeRes.total_users; //1000
+  const pageCount = Math.ceil(totalUsers / pageLimit);
+  const employee: Employee[] = employeeRes.users;
 
   return (
     <ScrollArea className="h-full">
@@ -100,12 +111,17 @@ export default function page() {
               <Card className="col-span-4 md:col-span-3">
                 <CardHeader>
                   <CardTitle>Recent Scans</CardTitle>
-                  <CardDescription>
-                    You made 265 sales this month.
-                  </CardDescription>
+                  <CardDescription>Realtime Scan Data</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RecentSales />
+                  <RecentScans
+                    searchKey="country"
+                    pageNo={page}
+                    columns={columns}
+                    totalUsers={totalUsers}
+                    data={employee}
+                    pageCount={pageCount}
+                  />
                 </CardContent>
               </Card>
             </div>
