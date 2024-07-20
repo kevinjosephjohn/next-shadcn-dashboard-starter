@@ -47,6 +47,7 @@ export default function UserAuthForm() {
     try {
       const user = await account.get();
       if (user) {
+        window.location.href = '/dashboard';
         console.log('User is logged in', user);
         setLoggedInUser(user);
       }
@@ -70,6 +71,7 @@ export default function UserAuthForm() {
         data.password
       );
       setLoggedInUser(await account.get());
+      window.location.href = '/dashboard';
     } catch (error) {
       setErrorMessage(error.message);
       setTimeout(() => {
